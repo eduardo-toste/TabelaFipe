@@ -23,9 +23,9 @@ public class Principal {
         String menu = """
         ===============================
                *** OPÇÕES ***
-               1 - Carro
-               2 - Moto
-               3 - Caminhão
+               Carro
+               Moto
+               Caminhão
         ===============================
         """;
 
@@ -33,19 +33,18 @@ public class Principal {
         System.out.print("Insira a opção desejada: ");
         String opcao = scanner.nextLine();
 
-        if (opcao.equalsIgnoreCase("1") || opcao.toLowerCase().contains("carr")) {
+        if (opcao.toLowerCase().contains("carr")) {
             endereco = URL_BASE + "carros/marcas";
-        } else if (opcao.equalsIgnoreCase("2") || opcao.toLowerCase().contains("mot")) {
+        } else if (opcao.toLowerCase().contains("mot")) {
             endereco = URL_BASE + "motos/marcas";
-        } else if (opcao.equalsIgnoreCase("3") || opcao.toLowerCase().contains("caminh")) {
+        } else if (opcao.toLowerCase().contains("caminh")) {
             endereco = URL_BASE + "caminhoes/marcas";
         } else {
             System.out.println("Opção não encontrada");
-            return;
         }
 
         var json = consumoApi.obterDados(endereco);
-        var marcas = conversor.obterLista(json, Dados.class);
+        List<Dados> marcas = conversor.obterLista(json, Dados.class);
 
         System.out.println("\n===== MARCAS DISPONÍVEIS =====");
         marcas.stream()
@@ -58,7 +57,7 @@ public class Principal {
         endereco += "/" + codigoMarca + "/modelos";
         json = consumoApi.obterDados(endereco);
 
-        var modeloLista = conversor.obterDados(json, Modelos.class);
+        Modelos modeloLista = conversor.obterDados(json, Modelos.class);
         System.out.println("\n===== MODELOS DISPONÍVEIS =====");
         modeloLista.modelos().stream()
                 .sorted(Comparator.comparing(Dados::codigo))
